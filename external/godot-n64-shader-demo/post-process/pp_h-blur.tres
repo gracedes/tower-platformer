@@ -1,9 +1,0 @@
-[gd_resource type="ShaderMaterial" format=3 uid="uid://j8bsdv5386ih"]
-
-[ext_resource type="Shader" path="res://external/godot-n64-shader-demo/shaders/gaussian-blur.gdshader" id="1_v81hl"]
-
-[resource]
-shader = ExtResource("1_v81hl")
-shader_parameter/h = 1.0
-shader_parameter/v = 0.0
-shader_parameter/enabled = true
