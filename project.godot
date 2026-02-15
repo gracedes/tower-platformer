@@ -15,6 +15,13 @@ run/main_scene="uid://5e35t3kgsfqp"
 config/features=PackedStringArray("4.6", "GL Compatibility")
 config/icon="res://icon.svg"
 
+[display]
+
+window/size/viewport_width=960
+window/size/viewport_height=720
+window/stretch/mode="viewport"
+window/vsync/vsync_mode=0
+
 [input]
 
 left={
@@ -37,5 +44,3 @@ right={
 [rendering]
 
 rendering_device/driver.windows="d3d12"
-renderer/rendering_method="gl_compatibility"
-renderer/rendering_method.mobile="gl_compatibility"
