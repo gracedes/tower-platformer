@@ -1,0 +1,41 @@
+[gd_scene format=3 uid="uid://5e35t3kgsfqp"]
+
+[ext_resource type="Script" uid="uid://xbg5ns06fw2w" path="res://stage/stage.gd" id="1_bl13t"]
+[ext_resource type="Texture2D" uid="uid://dfoajhkx0x5g3" path="res://icon.svg" id="2_iyx0m"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_ppyta"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ykrsh"]
+albedo_texture = ExtResource("2_iyx0m")
+uv1_scale = Vector3(25.405, 25.405, 25.405)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_g14j6"]
+material = SubResource("StandardMaterial3D_ykrsh")
+
+[node name="Node3D" type="Node3D" unique_id=1482438335]
+
+[node name="RigidBody3D" type="RigidBody3D" parent="." unique_id=1880038651]
+axis_lock_linear_x = true
+axis_lock_linear_y = true
+axis_lock_linear_z = true
+axis_lock_angular_x = true
+axis_lock_angular_z = true
+gravity_scale = 0.0
+script = ExtResource("1_bl13t")
+ROTATE_SPEED = 0.75
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="RigidBody3D" unique_id=1700223491]
+transform = Transform3D(7, 0, 0, 0, 7, 0, 0, 0, 7, 0, 0, 0)
+shape = SubResource("CylinderShape3D_ppyta")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="RigidBody3D/CollisionShape3D" unique_id=949578117]
+mesh = SubResource("CylinderMesh_g14j6")
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=453124377]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 5.851)
+projection = 1
+current = true
+size = 4.24
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=975401242]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 6.887521)
