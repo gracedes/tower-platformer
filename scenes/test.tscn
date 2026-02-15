@@ -8,6 +8,7 @@
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ykrsh"]
 albedo_texture = ExtResource("2_iyx0m")
 uv1_scale = Vector3(25.405, 25.405, 25.405)
+distance_fade_max_distance = 0.0
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_g14j6"]
 material = SubResource("StandardMaterial3D_ykrsh")
