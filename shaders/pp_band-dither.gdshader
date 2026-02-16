@@ -1,0 +1,1 @@
+../external/godot-n64-shader-demo/shaders/pp_band-dither.gdshader
