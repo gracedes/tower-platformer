@@ -2,8 +2,10 @@
 
 [ext_resource type="Script" uid="uid://xbg5ns06fw2w" path="res://stage/stage.gd" id="1_bl13t"]
 [ext_resource type="Material" uid="uid://j8bsdv5386ih" path="res://post-process/pp_h-blur.tres" id="3_74lek"]
+[ext_resource type="Script" uid="uid://byy3yg2on2xk7" path="res://camera/camera.gd" id="3_lpvoh"]
 [ext_resource type="CylinderMesh" uid="uid://c6oxilk1f21e4" path="res://placeholder.tres" id="4_74lek"]
 [ext_resource type="Material" uid="uid://c8e7ck31g8wbs" path="res://post-process/pp_dither-band.tres" id="4_j5jx5"]
+[ext_resource type="PackedScene" uid="uid://chc55qt63276h" path="res://player/player.tscn" id="5_j5jx5"]
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_ppyta"]
 height = 15.0
@@ -64,11 +66,12 @@ current = true
 fov = 80.0
 size = 11.648
 far = 11.49
+script = ExtResource("3_lpvoh")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="CanvasLayer/hband/SubViewport/dither/SubViewport" unique_id=975401242]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 6.887521)
 
-[node name="RigidBody3D" type="RigidBody3D" parent="CanvasLayer/hband/SubViewport/dither/SubViewport" unique_id=1880038651]
+[node name="Stage" type="RigidBody3D" parent="CanvasLayer/hband/SubViewport/dither/SubViewport" unique_id=1880038651]
 axis_lock_linear_x = true
 axis_lock_linear_y = true
 axis_lock_linear_z = true
@@ -78,38 +81,43 @@ gravity_scale = 0.0
 script = ExtResource("1_bl13t")
 ROTATE_SPEED = 0.75
 
-[node name="MainColumn" type="CollisionShape3D" parent="CanvasLayer/hband/SubViewport/dither/SubViewport/RigidBody3D" unique_id=1700223491]
+[node name="MainColumn" type="CollisionShape3D" parent="CanvasLayer/hband/SubViewport/dither/SubViewport/Stage" unique_id=1700223491]
 shape = SubResource("CylinderShape3D_ppyta")
+disabled = true
 debug_color = Color(0, 0.6, 0.69803923, 0.7137255)
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="CanvasLayer/hband/SubViewport/dither/SubViewport/RigidBody3D/MainColumn" unique_id=949578117]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="CanvasLayer/hband/SubViewport/dither/SubViewport/Stage/MainColumn" unique_id=949578117]
 mesh = ExtResource("4_74lek")
 
-[node name="Platforms" type="CSGCylinder3D" parent="CanvasLayer/hband/SubViewport/dither/SubViewport/RigidBody3D" unique_id=50604316]
+[node name="Platforms" type="CSGCylinder3D" parent="CanvasLayer/hband/SubViewport/dither/SubViewport/Stage" unique_id=50604316]
 operation = 1
+use_collision = true
 radius = 5.0
-height = 1000.0
+height = 11.365
 sides = 24
 material = SubResource("StandardMaterial3D_74lek")
 
-[node name="CSGCombiner3D" type="CSGCombiner3D" parent="CanvasLayer/hband/SubViewport/dither/SubViewport/RigidBody3D/Platforms" unique_id=53614316]
+[node name="CSGCombiner3D" type="CSGCombiner3D" parent="CanvasLayer/hband/SubViewport/dither/SubViewport/Stage/Platforms" unique_id=53614316]
 operation = 1
 
-[node name="CSGBox3D" type="CSGBox3D" parent="CanvasLayer/hband/SubViewport/dither/SubViewport/RigidBody3D/Platforms/CSGCombiner3D" unique_id=316753007]
+[node name="CSGBox3D" type="CSGBox3D" parent="CanvasLayer/hband/SubViewport/dither/SubViewport/Stage/Platforms/CSGCombiner3D" unique_id=316753007]
 size = Vector3(2, 0.6, 12)
 material = SubResource("StandardMaterial3D_j5jx5")
 
-[node name="CSGBox3D2" type="CSGBox3D" parent="CanvasLayer/hband/SubViewport/dither/SubViewport/RigidBody3D/Platforms/CSGCombiner3D" unique_id=1270052357]
+[node name="CSGBox3D2" type="CSGBox3D" parent="CanvasLayer/hband/SubViewport/dither/SubViewport/Stage/Platforms/CSGCombiner3D" unique_id=1270052357]
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0, 1.9057255, 0)
 size = Vector3(2, 0.6, 12)
 material = SubResource("StandardMaterial3D_j5jx5")
 
-[node name="CSGBox3D3" type="CSGBox3D" parent="CanvasLayer/hband/SubViewport/dither/SubViewport/RigidBody3D/Platforms/CSGCombiner3D" unique_id=1964110584]
+[node name="CSGBox3D3" type="CSGBox3D" parent="CanvasLayer/hband/SubViewport/dither/SubViewport/Stage/Platforms/CSGCombiner3D" unique_id=1964110584]
 transform = Transform3D(0.70710677, 0, 0.70710677, 0, 1, 0, -0.70710677, 0, 0.70710677, 0, 1.0125027, 0)
 size = Vector3(2, 0.6, 12)
 material = SubResource("StandardMaterial3D_j5jx5")
 
-[node name="CSGBox3D4" type="CSGBox3D" parent="CanvasLayer/hband/SubViewport/dither/SubViewport/RigidBody3D/Platforms/CSGCombiner3D" unique_id=1783222587]
+[node name="CSGBox3D4" type="CSGBox3D" parent="CanvasLayer/hband/SubViewport/dither/SubViewport/Stage/Platforms/CSGCombiner3D" unique_id=1783222587]
 transform = Transform3D(-0.70710677, 0, 0.70710677, 0, 1, 0, -0.70710677, 0, -0.70710677, 0, 1.9057255, 0)
 size = Vector3(2, 0.6, 12)
 material = SubResource("StandardMaterial3D_j5jx5")
+
+[node name="Player" parent="CanvasLayer/hband/SubViewport/dither/SubViewport" unique_id=1027099035 instance=ExtResource("5_j5jx5")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4941373, 4.1684904)
