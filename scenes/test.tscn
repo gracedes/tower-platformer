@@ -1,19 +1,17 @@
 [gd_scene format=3 uid="uid://5e35t3kgsfqp"]
 
 [ext_resource type="Script" uid="uid://xbg5ns06fw2w" path="res://stage/stage.gd" id="1_bl13t"]
-[ext_resource type="Texture2D" uid="uid://dfoajhkx0x5g3" path="res://icon.svg" id="2_iyx0m"]
 [ext_resource type="Material" uid="uid://j8bsdv5386ih" path="res://post-process/pp_h-blur.tres" id="3_74lek"]
+[ext_resource type="CylinderMesh" uid="uid://c6oxilk1f21e4" path="res://placeholder.tres" id="4_74lek"]
 [ext_resource type="Material" uid="uid://c8e7ck31g8wbs" path="res://post-process/pp_dither-band.tres" id="4_j5jx5"]
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_ppyta"]
+height = 15.0
+radius = 3.5
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ykrsh"]
-albedo_texture = ExtResource("2_iyx0m")
-uv1_scale = Vector3(25.405, 25.405, 25.405)
-distance_fade_max_distance = 0.0
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_74lek"]
 
-[sub_resource type="CylinderMesh" id="CylinderMesh_g14j6"]
-material = SubResource("StandardMaterial3D_ykrsh")
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_j5jx5"]
 
 [node name="Node3D" type="Node3D" unique_id=1482438335]
 
@@ -26,8 +24,6 @@ material = ExtResource("3_74lek")
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_right = -192.0
-offset_bottom = 72.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
@@ -37,7 +33,7 @@ stretch_shrink = 3
 [node name="SubViewport" type="SubViewport" parent="CanvasLayer/hband" unique_id=1218547657]
 handle_input_locally = false
 canvas_item_default_texture_filter = 0
-size = Vector2i(256, 264)
+size = Vector2i(320, 240)
 render_target_update_mode = 4
 
 [node name="dither" type="SubViewportContainer" parent="CanvasLayer/hband/SubViewport" unique_id=2051056291]
@@ -45,6 +41,8 @@ material = ExtResource("4_j5jx5")
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_right = 640.0
+offset_bottom = 480.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
@@ -56,8 +54,19 @@ msaa_3d = 1
 canvas_item_default_texture_filter = 0
 audio_listener_enable_2d = true
 audio_listener_enable_3d = true
-size = Vector2i(256, 264)
+size = Vector2i(960, 720)
 render_target_update_mode = 4
+
+[node name="Camera3D" type="Camera3D" parent="CanvasLayer/hband/SubViewport/dither/SubViewport" unique_id=453124377]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 10)
+keep_aspect = 0
+projection = 1
+current = true
+size = 11.648
+far = 11.49
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="CanvasLayer/hband/SubViewport/dither/SubViewport" unique_id=975401242]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 6.887521)
 
 [node name="RigidBody3D" type="RigidBody3D" parent="CanvasLayer/hband/SubViewport/dither/SubViewport" unique_id=1880038651]
 axis_lock_linear_x = true
@@ -69,19 +78,28 @@ gravity_scale = 0.0
 script = ExtResource("1_bl13t")
 ROTATE_SPEED = 0.75
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="CanvasLayer/hband/SubViewport/dither/SubViewport/RigidBody3D" unique_id=1700223491]
-transform = Transform3D(7, 0, 0, 0, 7, 0, 0, 0, 7, 0, 0, 0)
+[node name="MainColumn" type="CollisionShape3D" parent="CanvasLayer/hband/SubViewport/dither/SubViewport/RigidBody3D" unique_id=1700223491]
 shape = SubResource("CylinderShape3D_ppyta")
+debug_color = Color(0, 0.6, 0.69803923, 0.7137255)
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="CanvasLayer/hband/SubViewport/dither/SubViewport/RigidBody3D/CollisionShape3D" unique_id=949578117]
-mesh = SubResource("CylinderMesh_g14j6")
+[node name="MeshInstance3D" type="MeshInstance3D" parent="CanvasLayer/hband/SubViewport/dither/SubViewport/RigidBody3D/MainColumn" unique_id=949578117]
+mesh = ExtResource("4_74lek")
 
-[node name="Camera3D" type="Camera3D" parent="CanvasLayer/hband/SubViewport/dither/SubViewport" unique_id=453124377]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 10)
-keep_aspect = 0
-projection = 1
-current = true
-size = 7.944
+[node name="Platforms" type="CSGCylinder3D" parent="CanvasLayer/hband/SubViewport/dither/SubViewport/RigidBody3D" unique_id=50604316]
+operation = 1
+radius = 5.0
+height = 6.742
+sides = 24
+material = SubResource("StandardMaterial3D_74lek")
 
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="CanvasLayer/hband/SubViewport/dither/SubViewport" unique_id=975401242]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 6.887521)
+[node name="CSGCombiner3D" type="CSGCombiner3D" parent="CanvasLayer/hband/SubViewport/dither/SubViewport/RigidBody3D/Platforms" unique_id=53614316]
+operation = 1
+
+[node name="CSGBox3D" type="CSGBox3D" parent="CanvasLayer/hband/SubViewport/dither/SubViewport/RigidBody3D/Platforms/CSGCombiner3D" unique_id=316753007]
+size = Vector3(2, 0.6, 12)
+material = SubResource("StandardMaterial3D_j5jx5")
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="CanvasLayer/hband/SubViewport/dither/SubViewport/RigidBody3D/Platforms/CSGCombiner3D" unique_id=1270052357]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0, 1.9057255, 0)
+size = Vector3(2, 0.6, 12)
+material = SubResource("StandardMaterial3D_j5jx5")
