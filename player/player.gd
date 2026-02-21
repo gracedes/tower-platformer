@@ -7,9 +7,12 @@ extends CharacterBody3D
 @export var jumps: int = 0
 # var max_jumps: int = 2
 var needs_reset: bool = false
+var reset_time = 0.2
+var reset_timer = 0.0
 
 @onready var orbs: Array[Node] = get_node("../Stage/Orbs").get_children()
 @onready var stage = get_node("../Stage")
+@onready var cam = get_node("../Camera3D")
 
 func _physics_process(_delta: float) -> void:
 	if not check_jump():
@@ -18,7 +21,9 @@ func _physics_process(_delta: float) -> void:
 				if jumps != 1:
 					jumps = 1
 				if needs_reset:
-					reset_jumps()
+					if reset_timer >= reset_time:
+						reset_jumps()
+					else: reset_timer += _delta
 				velocity.y = 0
 			else:
 				velocity.y += GRAVITY
@@ -48,4 +53,5 @@ func add_jump() -> void:
 func reset_jumps() -> void:
 	for orb: Node in orbs:
 		orb.respawn()
+	reset_timer = 0.0
 	needs_reset = false
