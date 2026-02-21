@@ -1,5 +1,7 @@
 extends RigidBody3D
 
+# TODO: add acceleration maybe?
+
 @export var ROTATE_SPEED: float = 10.0		# change to const later
 
 func _physics_process(_delta: float) -> void:
