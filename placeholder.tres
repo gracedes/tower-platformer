@@ -9,6 +9,6 @@ distance_fade_max_distance = 0.0
 
 [resource]
 material = SubResource("StandardMaterial3D_ykrsh")
-top_radius = 3.5
-bottom_radius = 3.5
-height = 15.0
+top_radius = 11.0
+bottom_radius = 11.0
+height = 100.0

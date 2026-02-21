@@ -41,7 +41,6 @@ func check_glide() -> bool:
 	if Input.is_action_pressed("jump") and velocity.y < 0:
 		velocity.y = GLIDE_GRAVITY
 		rotation.z =  move_toward(rotation.z, sign(stage.angular_velocity.y) * 0.5, 0.05)
-		print_debug(rotation.z)
 		return true
 	rotation.z = 0.0
 	return false
