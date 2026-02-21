@@ -6,6 +6,7 @@
 [ext_resource type="CylinderMesh" uid="uid://c6oxilk1f21e4" path="res://placeholder.tres" id="4_74lek"]
 [ext_resource type="Material" uid="uid://c8e7ck31g8wbs" path="res://post-process/pp_dither-band.tres" id="4_j5jx5"]
 [ext_resource type="PackedScene" uid="uid://chc55qt63276h" path="res://player/player.tscn" id="5_j5jx5"]
+[ext_resource type="PackedScene" uid="uid://20frsjugk04s" path="res://entities/jump-orb/jump_orb.tscn" id="7_at5dv"]
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_ppyta"]
 height = 15.0
@@ -118,6 +119,11 @@ material = SubResource("StandardMaterial3D_j5jx5")
 transform = Transform3D(-0.70710677, 0, 0.70710677, 0, 1, 0, -0.70710677, 0, -0.70710677, 0, 1.9057255, 0)
 size = Vector3(2, 0.6, 12)
 material = SubResource("StandardMaterial3D_j5jx5")
+
+[node name="Orbs" type="Node3D" parent="CanvasLayer/hband/SubViewport/dither/SubViewport/Stage" unique_id=1062464128]
+
+[node name="JumpOrb" parent="CanvasLayer/hband/SubViewport/dither/SubViewport/Stage/Orbs" unique_id=37363553 instance=ExtResource("7_at5dv")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.9436884, 5.295593, 4.683706)
 
 [node name="Player" parent="CanvasLayer/hband/SubViewport/dither/SubViewport" unique_id=1027099035 instance=ExtResource("5_j5jx5")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4941373, 4.1684904)
