@@ -4,11 +4,11 @@
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ykrsh"]
 albedo_texture = ExtResource("1_lin4x")
-uv1_scale = Vector3(25.405, 25.405, 25.405)
+uv1_scale = Vector3(30, 100, 31.4)
 distance_fade_max_distance = 0.0
 
 [resource]
 material = SubResource("StandardMaterial3D_ykrsh")
 top_radius = 11.0
 bottom_radius = 11.0
-height = 100.0
+height = 96.0

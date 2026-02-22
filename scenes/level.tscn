@@ -1,0 +1,325 @@
+[gd_scene format=3 uid="uid://5e35t3kgsfqp"]
+
+[ext_resource type="Material" uid="uid://j8bsdv5386ih" path="res://post-process/pp_h-blur.tres" id="1_klq6b"]
+[ext_resource type="Material" uid="uid://c8e7ck31g8wbs" path="res://post-process/pp_dither-band.tres" id="2_b121j"]
+[ext_resource type="Script" uid="uid://byy3yg2on2xk7" path="res://camera/camera.gd" id="3_8c41q"]
+[ext_resource type="Script" uid="uid://xbg5ns06fw2w" path="res://stage/stage.gd" id="4_olg7q"]
+[ext_resource type="CylinderMesh" uid="uid://c6oxilk1f21e4" path="res://placeholder.tres" id="5_t1rx8"]
+[ext_resource type="PackedScene" uid="uid://20frsjugk04s" path="res://entities/jump-orb/jump_orb.tscn" id="6_8iemx"]
+[ext_resource type="PackedScene" uid="uid://chc55qt63276h" path="res://player/player.tscn" id="7_64w2a"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_ppyta"]
+height = 96.0
+radius = 10.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_klq6b"]
+albedo_color = Color(0.4745098, 0.827451, 0.5019608, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_j5jx5"]
+
+[node name="Node3D" type="Node3D" unique_id=1482438335]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1279873838]
+layer = 0
+
+[node name="hband" type="SubViewportContainer" parent="CanvasLayer" unique_id=2023762373]
+texture_filter = 1
+material = ExtResource("1_klq6b")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+stretch = true
+stretch_shrink = 3
+
+[node name="SubViewport" type="SubViewport" parent="CanvasLayer/hband" unique_id=1218547657]
+handle_input_locally = false
+canvas_item_default_texture_filter = 0
+size = Vector2i(320, 240)
+render_target_update_mode = 4
+
+[node name="dither" type="SubViewportContainer" parent="CanvasLayer/hband/SubViewport" unique_id=2051056291]
+material = ExtResource("2_b121j")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 640.0
+offset_bottom = 480.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+stretch = true
+
+[node name="SubViewport" type="SubViewport" parent="CanvasLayer/hband/SubViewport/dither" unique_id=2089884713]
+handle_input_locally = false
+msaa_3d = 1
+canvas_item_default_texture_filter = 0
+audio_listener_enable_2d = true
+audio_listener_enable_3d = true
+size = Vector2i(960, 720)
+render_target_update_mode = 4
+
+[node name="Camera3D" type="Camera3D" parent="CanvasLayer/hband/SubViewport/dither/SubViewport" unique_id=453124377]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 15.605)
+keep_aspect = 0
+projection = 1
+current = true
+fov = 112.5
+size = 25.837
+far = 15.89
+script = ExtResource("3_8c41q")
+SPEED = 0.025
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="CanvasLayer/hband/SubViewport/dither/SubViewport/Camera3D" unique_id=975401242]
+transform = Transform3D(0.9895258, 0, 0.14435619, 0, 1, 0, -0.14435619, 0, 0.9895258, 0, 0, 0)
+shadow_opacity = 0.49
+
+[node name="Stage" type="RigidBody3D" parent="CanvasLayer/hband/SubViewport/dither/SubViewport" unique_id=1880038651]
+axis_lock_linear_x = true
+axis_lock_linear_y = true
+axis_lock_linear_z = true
+axis_lock_angular_x = true
+axis_lock_angular_z = true
+gravity_scale = 0.0
+script = ExtResource("4_olg7q")
+ROTATE_SPEED = 0.75
+
+[node name="MainColumn" type="CollisionShape3D" parent="CanvasLayer/hband/SubViewport/dither/SubViewport/Stage" unique_id=1700223491]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 38.256565, 0)
+shape = SubResource("CylinderShape3D_ppyta")
+disabled = true
+debug_color = Color(0, 0.6, 0.69803923, 0.7137255)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="CanvasLayer/hband/SubViewport/dither/SubViewport/Stage/MainColumn" unique_id=949578117]
+mesh = ExtResource("5_t1rx8")
+
+[node name="Platforms" type="CSGCylinder3D" parent="CanvasLayer/hband/SubViewport/dither/SubViewport/Stage" unique_id=50604316]
+operation = 1
+use_collision = true
+radius = 12.0
+height = 1000.0
+sides = 64
+
+[node name="CSGCombiner3D" type="CSGCombiner3D" parent="CanvasLayer/hband/SubViewport/dither/SubViewport/Stage/Platforms" unique_id=53614316]
+operation = 1
+
+[node name="CSGBox3D" type="CSGBox3D" parent="CanvasLayer/hband/SubViewport/dither/SubViewport/Stage/Platforms/CSGCombiner3D" unique_id=316753007]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -4.1528997, 0)
+size = Vector3(30, 8.19, 30)
+material = SubResource("StandardMaterial3D_klq6b")
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="CanvasLayer/hband/SubViewport/dither/SubViewport/Stage/Platforms/CSGCombiner3D" unique_id=1270052357]
+transform = Transform3D(0.8660254, 0, 0.5, 0, 1, 0, -0.5, 0, 0.8660254, 7.721985, 3, 13.374869)
+size = Vector3(2, 0.5, 9.112061)
+material = SubResource("StandardMaterial3D_j5jx5")
+
+[node name="CSGBox3D5" type="CSGBox3D" parent="CanvasLayer/hband/SubViewport/dither/SubViewport/Stage/Platforms/CSGCombiner3D" unique_id=438652610]
+transform = Transform3D(0.8660254, 0, -0.5, 0, 1, 0, 0.5, 0, 0.8660254, -7.693207, 3, 13.325025)
+size = Vector3(2, 0.5, 9.227173)
+material = SubResource("StandardMaterial3D_j5jx5")
+
+[node name="CSGBox3D7" type="CSGBox3D" parent="CanvasLayer/hband/SubViewport/dither/SubViewport/Stage/Platforms/CSGCombiner3D" unique_id=1594541635]
+transform = Transform3D(0.58778524, 0, 0.809017, 0, 1, 0, -0.809017, 0, 0.58778524, 9.321, 5, 6.772)
+size = Vector3(2, 0.5, 1.2595205)
+material = SubResource("StandardMaterial3D_j5jx5")
+
+[node name="CSGBox3D9" type="CSGBox3D" parent="CanvasLayer/hband/SubViewport/dither/SubViewport/Stage/Platforms/CSGCombiner3D" unique_id=1152313317]
+transform = Transform3D(0.20791164, 0, -0.97814757, 0, 1, 0, 0.97814757, 0, 0.20791164, -11.23995, 6.996237, 2.3891246)
+size = Vector3(2, 0.5, 1.3198848)
+material = SubResource("StandardMaterial3D_j5jx5")
+
+[node name="CSGBox3D10" type="CSGBox3D" parent="CanvasLayer/hband/SubViewport/dither/SubViewport/Stage/Platforms/CSGCombiner3D" unique_id=1084209731]
+transform = Transform3D(0.20791164, 0, 0.97814757, 0, 1, 0, -0.97814757, 0, 0.20791164, 11.244398, 6.996237, 2.39007)
+size = Vector3(2, 0.5, 1.3107905)
+material = SubResource("StandardMaterial3D_j5jx5")
+
+[node name="CSGBox3D8" type="CSGBox3D" parent="CanvasLayer/hband/SubViewport/dither/SubViewport/Stage/Platforms/CSGCombiner3D" unique_id=517547450]
+transform = Transform3D(0.5873192, 0, -0.8093554, 0, 1, 0, 0.8093554, 0, 0.5873192, -11.417, 5, 8.285)
+size = Vector3(2, 0.5, 6.4769897)
+material = SubResource("StandardMaterial3D_j5jx5")
+
+[node name="CSGBox3D11" type="CSGBox3D" parent="CanvasLayer/hband/SubViewport/dither/SubViewport/Stage/Platforms/CSGCombiner3D" unique_id=1052077546]
+transform = Transform3D(-0.5877851, 0, -0.80901694, 0, 1, 0, 0.80901694, 0, -0.5877851, -9.325224, 6.996237, -6.775171)
+size = Vector3(2, 0.5, 1.2487783)
+material = SubResource("StandardMaterial3D_j5jx5")
+
+[node name="CSGBox3D12" type="CSGBox3D" parent="CanvasLayer/hband/SubViewport/dither/SubViewport/Stage/Platforms/CSGCombiner3D" unique_id=1181536623]
+transform = Transform3D(-0.5877851, 0, 0.8090169, 0, 1, 0, -0.8090169, 0, -0.5877851, 9.304854, 6.996237, -6.760372)
+size = Vector3(2, 0.5, 1.2991328)
+material = SubResource("StandardMaterial3D_j5jx5")
+
+[node name="CSGBox3D13" type="CSGBox3D" parent="CanvasLayer/hband/SubViewport/dither/SubViewport/Stage/Platforms/CSGCombiner3D" unique_id=1452168860]
+transform = Transform3D(-0.9999998, 0, -8.742276e-08, 0, 1, 0, 8.742276e-08, 0, -0.9999998, -9.669366e-07, 10, -11.060465)
+size = Vector3(9, 0.5, 2.180871)
+material = SubResource("StandardMaterial3D_j5jx5")
+
+[node name="CSGBox3D14" type="CSGBox3D" parent="CanvasLayer/hband/SubViewport/dither/SubViewport/Stage/Platforms/CSGCombiner3D" unique_id=509127871]
+transform = Transform3D(-0.9999998, 0, -8.742276e-08, 0, 1, 0, 8.742276e-08, 0, -0.9999998, -9.987933e-07, 14, -11.424864)
+size = Vector3(3.66, 0.5, 1.4522696)
+material = SubResource("StandardMaterial3D_j5jx5")
+
+[node name="CSGBox3D15" type="CSGBox3D" parent="CanvasLayer/hband/SubViewport/dither/SubViewport/Stage/Platforms/CSGCombiner3D" unique_id=190252993]
+transform = Transform3D(-0.309017, 0, -0.9510564, 0, 1, 0, 0.9510564, 0, -0.309017, -10.825291, 18, -3.5173507)
+size = Vector3(4.5, 0.5, 1.5372305)
+material = SubResource("StandardMaterial3D_j5jx5")
+
+[node name="CSGBox3D16" type="CSGBox3D" parent="CanvasLayer/hband/SubViewport/dither/SubViewport/Stage/Platforms/CSGCombiner3D" unique_id=1589326717]
+transform = Transform3D(-0.97763306, 0, -0.21031809, 0, 1, 0, 0.21031809, 0, -0.97763306, -2.3966494, 20.955566, -11.140475)
+size = Vector3(4.5, 0.5, 1.511291)
+material = SubResource("StandardMaterial3D_j5jx5")
+
+[node name="CSGBox3D17" type="CSGBox3D" parent="CanvasLayer/hband/SubViewport/dither/SubViewport/Stage/Platforms/CSGCombiner3D" unique_id=560790010]
+transform = Transform3D(-0.30901703, 0, -0.9510565, 0, 1, 0, 0.9510565, 0, -0.30901703, -10.793249, 24, -3.5069396)
+size = Vector3(4.5, 0.5, 1.6046133)
+material = SubResource("StandardMaterial3D_j5jx5")
+
+[node name="CSGBox3D18" type="CSGBox3D" parent="CanvasLayer/hband/SubViewport/dither/SubViewport/Stage/Platforms/CSGCombiner3D" unique_id=2015633874]
+transform = Transform3D(0.99999934, 0, -0.0012043556, 0, 1, 0, 0.0012043556, 0, 0.99999934, -0.013605565, 28, 11.296959)
+size = Vector3(4.5, 0.5, 1.7080684)
+material = SubResource("StandardMaterial3D_j5jx5")
+
+[node name="CSGBox3D22" type="CSGBox3D" parent="CanvasLayer/hband/SubViewport/dither/SubViewport/Stage/Platforms/CSGCombiner3D" unique_id=140785737]
+transform = Transform3D(0.99999934, 0, -0.0012043556, 0, 1, 0, 0.0012043556, 0, 0.99999934, -0.014, 38, 11.297)
+size = Vector3(4.5, 0.5, 1.7080684)
+material = SubResource("StandardMaterial3D_j5jx5")
+
+[node name="CSGBox3D19" type="CSGBox3D" parent="CanvasLayer/hband/SubViewport/dither/SubViewport/Stage/Platforms/CSGCombiner3D" unique_id=985588577]
+transform = Transform3D(0.58654207, 0, 0.8099188, 0, 1, 0, -0.8099188, 0, 0.58654207, 9.329786, 30, 6.756618)
+size = Vector3(2, 0.5, 1.2631826)
+material = SubResource("StandardMaterial3D_j5jx5")
+
+[node name="CSGBox3D20" type="CSGBox3D" parent="CanvasLayer/hband/SubViewport/dither/SubViewport/Stage/Platforms/CSGCombiner3D" unique_id=1573633590]
+transform = Transform3D(-0.20804815, 0, 0.9781186, 0, 1, 0, -0.9781186, 0, -0.20804815, 11.26299, 32, -2.3956647)
+size = Vector3(2, 0.5, 1.2720938)
+material = SubResource("StandardMaterial3D_j5jx5")
+
+[node name="CSGBox3D21" type="CSGBox3D" parent="CanvasLayer/hband/SubViewport/dither/SubViewport/Stage/Platforms/CSGCombiner3D" unique_id=1856431042]
+transform = Transform3D(0.3081701, 0, -0.9513313, 0, 1, 0, 0.9513313, 0, 0.3081701, -10.86, 39, 3.518)
+size = Vector3(4.5, 0.5, 1.4718008)
+material = SubResource("StandardMaterial3D_j5jx5")
+
+[node name="CSGBox3D23" type="CSGBox3D" parent="CanvasLayer/hband/SubViewport/dither/SubViewport/Stage/Platforms/CSGCombiner3D" unique_id=1084332972]
+transform = Transform3D(-0.40654546, 0, -0.9136305, 0, 1, 0, 0.9136305, 0, -0.40654546, -10.510654, 42, -4.6770096)
+size = Vector3(2, 0.5, 1.2934561)
+material = SubResource("StandardMaterial3D_j5jx5")
+
+[node name="CSGBox3D25" type="CSGBox3D" parent="CanvasLayer/hband/SubViewport/dither/SubViewport/Stage/Platforms/CSGCombiner3D" unique_id=507472287]
+transform = Transform3D(-0.40654546, 0, -0.9136305, 0, 1, 0, 0.9136305, 0, -0.40654546, -10.511, 48, -4.677)
+size = Vector3(2, 0.5, 1.2934561)
+material = SubResource("StandardMaterial3D_j5jx5")
+
+[node name="CSGBox3D24" type="CSGBox3D" parent="CanvasLayer/hband/SubViewport/dither/SubViewport/Stage/Platforms/CSGCombiner3D" unique_id=2104681723]
+transform = Transform3D(0.20867965, 0, -0.97798395, 0, 1, 0, 0.97798395, 0, 0.20867965, -11.267468, 45, 2.4042227)
+size = Vector3(2, 0.5, 1.2597656)
+material = SubResource("StandardMaterial3D_j5jx5")
+
+[node name="CSGBox3D26" type="CSGBox3D" parent="CanvasLayer/hband/SubViewport/dither/SubViewport/Stage/Platforms/CSGCombiner3D" unique_id=1495387299]
+transform = Transform3D(0.31241766, 0, -0.9499448, 0, 1, 0, 0.9499448, 0, 0.31241766, 10.8324375, 44, -3.5625699)
+size = Vector3(4.5, 0.5, 1.495544)
+material = SubResource("StandardMaterial3D_j5jx5")
+
+[node name="CSGBox3D27" type="CSGBox3D" parent="CanvasLayer/hband/SubViewport/dither/SubViewport/Stage/Platforms/CSGCombiner3D" unique_id=448121825]
+transform = Transform3D(-0.49983385, 0, -0.8661212, 0, 1, 0, 0.8661212, 0, -0.49983385, 9.836534, 46, 5.6766105)
+size = Vector3(4.5, 0.5, 1.5880117)
+material = SubResource("StandardMaterial3D_j5jx5")
+
+[node name="CSGBox3D28" type="CSGBox3D" parent="CanvasLayer/hband/SubViewport/dither/SubViewport/Stage/Platforms/CSGCombiner3D" unique_id=1397608481]
+transform = Transform3D(-0.86509013, 0, -0.5016162, 0, 1, 0, 0.5016162, 0, -0.86509013, 5.787109, 49, 9.980481)
+size = Vector3(2, 0.5, 1.2281485)
+material = SubResource("StandardMaterial3D_j5jx5")
+
+[node name="CSGBox3D29" type="CSGBox3D" parent="CanvasLayer/hband/SubViewport/dither/SubViewport/Stage/Platforms/CSGCombiner3D" unique_id=287743920]
+transform = Transform3D(-0.99463415, 0, 0.10345244, 0, 1, 0, -0.10345244, 0, -0.99463415, -1.1869816, 52, 11.4121275)
+size = Vector3(2, 0.5, 1.3546133)
+material = SubResource("StandardMaterial3D_j5jx5")
+
+[node name="CSGBox3D30" type="CSGBox3D" parent="CanvasLayer/hband/SubViewport/dither/SubViewport/Stage/Platforms/CSGCombiner3D" unique_id=1987861568]
+transform = Transform3D(0.10300062, 0, -0.99468106, 0, 1, 0, 0.99468106, 0, 0.10300062, 11.304115, 52, -1.170557)
+size = Vector3(4.5, 0.5, 1.572875)
+material = SubResource("StandardMaterial3D_j5jx5")
+
+[node name="CSGBox3D31" type="CSGBox3D" parent="CanvasLayer/hband/SubViewport/dither/SubViewport/Stage/Platforms/CSGCombiner3D" unique_id=1414182388]
+transform = Transform3D(0.9129194, 0, -0.40813935, 0, 1, 0, 0.40813935, 0, 0.9129194, 4.6456237, 54, -10.391255)
+size = Vector3(4.5, 0.5, 1.5371094)
+material = SubResource("StandardMaterial3D_j5jx5")
+
+[node name="CSGBox3D32" type="CSGBox3D" parent="CanvasLayer/hband/SubViewport/dither/SubViewport/Stage/Platforms/CSGCombiner3D" unique_id=1666905408]
+transform = Transform3D(0.8099187, 0, 0.5865418, 0, 1, 0, -0.5865418, 0, 0.8099187, -6.692497, 56, -9.241249)
+size = Vector3(4.5, 0.5, 1.4818115)
+material = SubResource("StandardMaterial3D_j5jx5")
+
+[node name="CSGBox3D33" type="CSGBox3D" parent="CanvasLayer/hband/SubViewport/dither/SubViewport/Stage/Platforms/CSGCombiner3D" unique_id=1207453203]
+transform = Transform3D(-0.49963713, 0, 0.8662347, 0, 1, 0, -0.8662347, 0, -0.49963713, 9.856486, 62, -5.6851406)
+size = Vector3(4.5, 0.5, 1.5449219)
+material = SubResource("StandardMaterial3D_j5jx5")
+
+[node name="CSGBox3D35" type="CSGBox3D" parent="CanvasLayer/hband/SubViewport/dither/SubViewport/Stage/Platforms/CSGCombiner3D" unique_id=1630949864]
+transform = Transform3D(0.3122354, 0, -0.9500047, 0, 1, 0, 0.9500047, 0, 0.3122354, -10.72559, 68, 3.5251496)
+size = Vector3(4.5, 0.5, 1.7219234)
+material = SubResource("StandardMaterial3D_j5jx5")
+
+[node name="CSGBox3D36" type="CSGBox3D" parent="CanvasLayer/hband/SubViewport/dither/SubViewport/Stage/Platforms/CSGCombiner3D" unique_id=1589894022]
+transform = Transform3D(-0.5863724, 0, -0.8100416, 0, 1, 0, 0.8100416, 0, -0.5863724, -9.273207, 71, -6.7126822)
+size = Vector3(2, 0.5, 1.4063711)
+material = SubResource("StandardMaterial3D_j5jx5")
+
+[node name="CSGBox3D37" type="CSGBox3D" parent="CanvasLayer/hband/SubViewport/dither/SubViewport/Stage/Platforms/CSGCombiner3D" unique_id=111414750]
+transform = Transform3D(-0.5863724, 0, -0.8100416, 0, 1, 0, 0.8100416, 0, -0.5863724, -6.690979, 86, 8.480333)
+size = Vector3(18, 0.5, 32.157)
+material = SubResource("StandardMaterial3D_j5jx5")
+
+[node name="CSGBox3D38" type="CSGBox3D" parent="CanvasLayer/hband/SubViewport/dither/SubViewport/Stage/Platforms/CSGCombiner3D" unique_id=412599436]
+transform = Transform3D(-0.5863724, 0, -0.8100416, 0, 1, 0, 0.8100416, 0, -0.5863724, 5.0998325, 86, -7.267605)
+size = Vector3(14, 0.5, 41)
+material = SubResource("StandardMaterial3D_j5jx5")
+
+[node name="CSGBox3D39" type="CSGBox3D" parent="CanvasLayer/hband/SubViewport/dither/SubViewport/Stage/Platforms/CSGCombiner3D" unique_id=478367674]
+transform = Transform3D(-0.99166673, 0, -0.1288302, 0, 1, 0, 0.1288302, 0, -0.99166673, 5.0998325, 86, -7.267605)
+size = Vector3(14, 0.5, 41)
+material = SubResource("StandardMaterial3D_j5jx5")
+
+[node name="Orbs" type="Node3D" parent="CanvasLayer/hband/SubViewport/dither/SubViewport/Stage" unique_id=1062464128]
+
+[node name="JumpOrb" parent="CanvasLayer/hband/SubViewport/dither/SubViewport/Stage/Orbs" unique_id=37363553 instance=ExtResource("6_8iemx")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.846611, 18.280344, -9.417619)
+
+[node name="JumpOrb2" parent="CanvasLayer/hband/SubViewport/dither/SubViewport/Stage/Orbs" unique_id=2030709432 instance=ExtResource("6_8iemx")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.278177, 26.698889, 5.92972)
+
+[node name="JumpOrb3" parent="CanvasLayer/hband/SubViewport/dither/SubViewport/Stage/Orbs" unique_id=1584189447 instance=ExtResource("6_8iemx")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.429727, 35.958603, -2.4148483)
+
+[node name="JumpOrb4" parent="CanvasLayer/hband/SubViewport/dither/SubViewport/Stage/Orbs" unique_id=866780169 instance=ExtResource("6_8iemx")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.909392, 38.00439, 7.4786396)
+
+[node name="JumpOrb5" parent="CanvasLayer/hband/SubViewport/dither/SubViewport/Stage/Orbs" unique_id=303195121 instance=ExtResource("6_8iemx")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.090607, 59.00439, 3.4786396)
+
+[node name="JumpOrb6" parent="CanvasLayer/hband/SubViewport/dither/SubViewport/Stage/Orbs" unique_id=1501460690 instance=ExtResource("6_8iemx")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.399557, 61.00439, 10.989543)
+
+[node name="JumpOrb7" parent="CanvasLayer/hband/SubViewport/dither/SubViewport/Stage/Orbs" unique_id=1262501726 instance=ExtResource("6_8iemx")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.017755, 63.00439, 7.9113274)
+
+[node name="JumpOrb8" parent="CanvasLayer/hband/SubViewport/dither/SubViewport/Stage/Orbs" unique_id=750616343 instance=ExtResource("6_8iemx")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.951, 66, -9.433)
+
+[node name="JumpOrb9" parent="CanvasLayer/hband/SubViewport/dither/SubViewport/Stage/Orbs" unique_id=1335151026 instance=ExtResource("6_8iemx")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.207858, 70, -5.878481)
+
+[node name="JumpOrb10" parent="CanvasLayer/hband/SubViewport/dither/SubViewport/Stage/Orbs" unique_id=943124225 instance=ExtResource("6_8iemx")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.032561302, 68, 11.592053)
+
+[node name="JumpOrb11" parent="CanvasLayer/hband/SubViewport/dither/SubViewport/Stage/Orbs" unique_id=1841840034 instance=ExtResource("6_8iemx")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.765543, 75, -6.932898)
+
+[node name="JumpOrb12" parent="CanvasLayer/hband/SubViewport/dither/SubViewport/Stage/Orbs" unique_id=1152260851 instance=ExtResource("6_8iemx")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.765543, 79, -6.932898)
+
+[node name="JumpOrb13" parent="CanvasLayer/hband/SubViewport/dither/SubViewport/Stage/Orbs" unique_id=1389279318 instance=ExtResource("6_8iemx")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.765543, 83, -6.932898)
+
+[node name="Player" parent="CanvasLayer/hband/SubViewport/dither/SubViewport" unique_id=1027099035 instance=ExtResource("7_64w2a")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4941373, 11.552774)

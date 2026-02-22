@@ -2,7 +2,7 @@ extends CharacterBody3D
 
 @export var JUMP_COEFF: float = 15.0
 @export var GRAVITY: float = -0.5
-@export var GLIDE_GRAVITY: float = -1.0
+@export var GLIDE_GRAVITY: float = -2.5
 
 @export var jumps: int = 0
 # var max_jumps: int = 2
