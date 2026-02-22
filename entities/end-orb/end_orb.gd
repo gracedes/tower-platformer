@@ -3,6 +3,8 @@ extends Area3D
 @onready var collision = get_node("CollisionShape3D")
 @onready var mesh = get_node("MeshInstance3D")
 
+@export var spin_speed: float = 2.5
+
 func _on_body_entered(body: Node) -> void:
 	if not (body is CharacterBody3D):
 		push_error("Bug: body is not CharacterBody3D.")
@@ -12,8 +14,7 @@ func _on_body_entered(body: Node) -> void:
 		return
 	collision.disabled = true
 	mesh.visible = false
-	player.add_jump()
+	player.end_game()
 
-func respawn() -> void:
-	collision.disabled = false
-	mesh.visible = true
+func _physics_process(delta: float) -> void:
+	rotation.y += spin_speed * delta

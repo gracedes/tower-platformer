@@ -1,6 +1,6 @@
 [gd_resource type="CylinderMesh" format=3 uid="uid://c6oxilk1f21e4"]
 
-[ext_resource type="Texture2D" uid="uid://dfoajhkx0x5g3" path="res://icon.svg" id="1_lin4x"]
+[ext_resource type="Texture2D" uid="uid://dvmnq6p2g1wbj" path="res://stage/textures/wall-dim.png" id="1_lin4x"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ykrsh"]
 albedo_texture = ExtResource("1_lin4x")
